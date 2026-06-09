@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sahil Basnet — Minecraft Creator & Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background Canvas for Particles -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Fixed Left Navigation -->
+  <nav class="sidebar-nav" id="sidebar-nav">
+    <div class="nav-brand">SB</div>
+    <ul class="nav-icons">
+      <li>
+        <a href="#hero" class="nav-icon active" data-tooltip="Home">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href="#projects" class="nav-icon" data-tooltip="Projects">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="6" height="6" rx="1"/>
+            <rect x="9" y="3" width="6" height="6" rx="1"/>
+            <rect x="16" y="3" width="6" height="6" rx="1"/>
+            <rect x="2" y="10" width="6" height="6" rx="1"/>
+            <rect x="9" y="10" width="6" height="6" rx="1"/>
+            <rect x="16" y="10" width="6" height="6" rx="1"/>
+            <rect x="2" y="17" width="6" height="6" rx="1"/>
+            <rect x="9" y="17" width="6" height="6" rx="1"/>
+            <rect x="16" y="17" width="6" height="6" rx="1"/>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href="#about" class="nav-icon" data-tooltip="About">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href="#video" class="nav-icon" data-tooltip="Video">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="23 7 16 12 23 17 23 7"/>
+            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href="#contact" class="nav-icon" data-tooltip="Contact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </a>
+      </li>
+    </ul>
+    <div class="nav-footer">
+      <div class="nav-status-dot"></div>
+    </div>
+  </nav>
+
+  <!-- SECTION 1: Hero -->
+  <section id="hero" class="section hero-section">
+    <div class="section-wrapper">
+      <div class="hero-content">
+        <div class="player-badge">
+          <span class="badge-dot">■</span> PLAYER ONLINE
+        </div>
+
+        <p class="hero-intro">Hi, I'm</p>
+        <h1 class="hero-name">Sahil Basnet<span class="cursor-block"></span></h1>
+        <p class="hero-subtitle">
+          Minecraft Creator <span class="diamond">◆</span> Tech Enthusiast <span class="diamond">◆</span> Developer
+        </p>
+        <div class="health-bar" aria-label="Health: 6.5 out of 8">
+          <span class="heart full">♥</span>
+          <span class="heart full">♥</span>
+          <span class="heart full">♥</span>
+          <span class="heart full">♥</span>
+          <span class="heart full">♥</span>
+          <span class="heart full">♥</span>
+          <span class="heart half">
+            <span class="heart-fill">♥</span>
+            <span class="heart-empty">♥</span>
+          </span>
+          <span class="heart empty">♥</span>
+        </div>
+
+        <p class="hero-desc">
+          Building Minecraft content, writing plugins, and shipping side projects — one block at a time.
+        </p>
+
+        <div class="hero-cta">
+          <a href="#video" class="btn btn-blue">▶ WATCH CHANNEL</a>
+          <a href="#contact" class="btn btn-gold">💬 JOIN DISCORD</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span class="scroll-text">SCROLL</span>
+      <span class="scroll-arrow">▼</span>
+    </div>
+  </section>
+
+  <!-- SECTION 2: Projects -->
+  <section id="projects" class="section projects-section">
+    <div class="section-wrapper">
+      <div class="section-header">
+        <p class="section-label">-- FEATURED BUILDS --</p>
+        <h2 class="section-title pixel-title">
+          <span class="title-accent">PR</span>OJECTS
+        </h2>
+        <div class="title-underline"></div>
+      </div>
+
+      <div class="projects-grid">
+        <!-- Card 1 -->
+        <article class="project-card">
+          <div class="card-icon blue-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <line x1="8" y1="8" x2="16" y2="16"/>
+              <line x1="16" y1="8" x2="8" y2="16"/>
+              <line x1="12" y1="4" x2="12" y2="2"/>
+              <line x1="12" y1="22" x2="12" y2="20"/>
+              <line x1="4" y1="12" x2="2" y2="12"/>
+              <line x1="22" y1="12" x2="20" y2="12"/>
+            </svg>
+          </div>
+          <span class="card-label blue-label">MINECRAFT PLUGIN</span>
+          <h3 class="card-title">LagFixPlugin</h3>
+          <p class="card-desc">Custom Spigot plugin that surgically optimises server TPS — no mob-spawn sacrifices, no broken redstone.</p>
+          <a href="#" class="card-link blue-link">
+            VIEW
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="link-arrow">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="project-card">
+          <div class="card-icon gold-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="4" y="4" width="16" height="16" rx="2"/>
+              <rect x="9" y="9" width="6" height="6"/>
+              <line x1="9" y1="1" x2="9" y2="4"/>
+              <line x1="15" y1="1" x2="15" y2="4"/>
+              <line x1="9" y1="20" x2="9" y2="23"/>
+              <line x1="15" y1="20" x2="15" y2="23"/>
+              <line x1="20" y1="9" x2="23" y2="9"/>
+              <line x1="20" y1="15" x2="23" y2="15"/>
+              <line x1="1" y1="9" x2="4" y2="9"/>
+              <line x1="1" y1="15" x2="4" y2="15"/>
+            </svg>
+          </div>
+          <span class="card-label gold-label">WEB APP</span>
+          <h3 class="card-title">Voice-to-Text Bridge</h3>
+          <p class="card-desc">Real-time caption generator for streamers. Built because I needed it mid-broadcast and nothing else worked.</p>
+          <a href="#" class="card-link gold-link">
+            VIEW
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="link-arrow">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="project-card">
+          <div class="card-icon blue-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <span class="card-label blue-label">STORY CONTENT</span>
+          <h3 class="card-title">The SMP Lore</h3>
+          <p class="card-desc">Wrote &amp; directed deep lore arcs for a 50-player SMP — custom items, boss fights, server-wide narrative events.</p>
+          <a href="#" class="card-link blue-link">
+            VIEW
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="link-arrow">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: About -->
+  <section id="about" class="section about-section">
+    <div class="section-wrapper">
+      <div class="section-header">
+        <p class="section-label">-- THE STORY --</p>
+        <h2 class="section-title pixel-title">ABOUT <span class="glow-blue">ME</span></h2>
+      </div>
+
+      <div class="about-grid">
+        <!-- Left Panel -->
+        <div class="about-left">
+          <p class="about-para">
+            It started with blocks — just placing them, surviving the night. Then I started asking <em>why</em> things worked, and rewriting the rules with code.
+          </p>
+          <p class="about-para">
+            As <span class="accent-blue">@SahilSux</span> on YouTube I build contraptions, ship custom plugins that bend the game, and document the whole chaotic journey.
+          </p>
+          <p class="about-para">
+            Discord is where the real conversations happen — game design, server architecture, and whatever I'm breaking this week.
+          </p>
+
+          <div class="stats-row">
+            <div class="stat-box stat-blue">
+              <span class="stat-number blue-number">500+</span>
+              <span class="stat-label">SUBSCRIBERS</span>
+            </div>
+            <div class="stat-box stat-gold">
+              <span class="stat-number gold-number">5+</span>
+              <span class="stat-label">PROJECTS</span>
+            </div>
+          </div>
+
+          <div class="rank-badge">
+            🛡️ RANK: CREATOR
+          </div>
+        </div>
+
+        <!-- Right Panel: Skill Board -->
+        <div class="skill-board">
+          <div class="skill-board-header">
+            <div class="window-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-blue"></span>
+            </div>
+            <span class="skill-board-title">SKILL BOARD</span>
+          </div>
+          <div class="skill-board-body">
+            <div class="skill-item">
+              <div class="skill-meta">
+                <span class="skill-name">Minecraft</span>
+                <span class="skill-pct blue-pct">95%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill blue-bar" data-width="95"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-meta">
+                <span class="skill-name">Java / Spigot</span>
+                <span class="skill-pct gold-pct">80%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill gold-bar" data-width="80"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-meta">
+                <span class="skill-name">Web Dev</span>
+                <span class="skill-pct blue-pct">72%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill blue-bar" data-width="72"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-meta">
+                <span class="skill-name">Content Creation</span>
+                <span class="skill-pct gold-pct">90%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill gold-bar" data-width="90"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-meta">
+                <span class="skill-name">SMP Lore Writing</span>
+                <span class="skill-pct blue-pct">88%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill blue-bar" data-width="88"></div>
+              </div>
+            </div>
+          </div>
+          <div class="skill-board-footer">
+            <span class="xp-label">TOTAL XP:</span>
+            <span class="xp-value">9,240</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: Video -->
+  <section id="video" class="section video-section">
+    <div class="section-wrapper">
+      <div class="section-header">
+        <h2 class="section-title pixel-title">LATEST CONTENT</h2>
+        <div class="title-underline orange-line"></div>
+        <p class="video-subtitle">Minecraft builds, coding experiments, and creative chaos.</p>
+      </div>
+
+      <div class="video-container">
+        <div class="video-frame">
+          <div class="video-overlay">
+            <div class="video-icon-wrap">
+              <svg class="video-play-icon" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+            </div>
+            <p class="video-channel">@SahilSux</p>
+            <p class="video-hint">YouTube · Latest Upload</p>
+            <a href="https://youtube.com/@SahilSux" target="_blank" rel="noopener" class="btn btn-blue video-btn">
+              ▶ WATCH NOW
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: Contact -->
+  <section id="contact" class="section contact-section">
+    <div class="section-wrapper">
+      <div class="section-header">
+        <p class="section-label">-- CONNECT --</p>
+        <h2 class="section-title pixel-title">CONTACT</h2>
+        <div class="title-underline"></div>
+      </div>
+
+      <div class="contact-layout">
+        <!-- Left: Social cards -->
+        <div class="contact-socials">
+          <a href="https://youtube.com/@SahilSux" target="_blank" rel="noopener" class="contact-card">
+            <div class="card-icon blue-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+                <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+              </svg>
+            </div>
+            <div class="contact-text">
+              <span class="contact-label">YouTube</span>
+              <span class="contact-handle">@SahilSux · Subscribe for builds &amp; plugins</span>
+            </div>
+          </a>
+
+          <a href="#" class="contact-card gold-card">
+            <div class="card-icon gold-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <div class="contact-text">
+              <span class="contact-label">Discord</span>
+              <span class="contact-handle">Join the community server</span>
+            </div>
+          </a>
+
+          <a href="#" class="contact-card">
+            <div class="card-icon blue-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+              </svg>
+            </div>
+            <div class="contact-text">
+              <span class="contact-label">GitHub</span>
+              <span class="contact-handle">Plugins, tools &amp; side projects</span>
+            </div>
+          </a>
+
+          <a href="mailto:sahil@example.com" class="contact-card gold-card">
+            <div class="card-icon gold-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div class="contact-text">
+              <span class="contact-label">Email</span>
+              <span class="contact-handle">For collabs &amp; business inquiries</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Right: Contact form -->
+        <div class="contact-form-wrap">
+          <p class="contact-form-title">SEND A MESSAGE</p>
+          <form class="contact-form" onsubmit="handleContactSubmit(event)">
+            <div class="form-group">
+              <label class="form-label" for="contact-name">YOUR NAME</label>
+              <input class="form-input" id="contact-name" type="text" placeholder="Steve_Builder99" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contact-email">EMAIL ADDRESS</label>
+              <input class="form-input" id="contact-email" type="email" placeholder="you@example.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contact-subject">SUBJECT</label>
+              <input class="form-input" id="contact-subject" type="text" placeholder="Collab? Plugin idea? Just saying hi?" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contact-msg">MESSAGE</label>
+              <textarea class="form-textarea" id="contact-msg" placeholder="Tell me about your server, your idea, or your project..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-blue form-submit">▶ SEND MESSAGE</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
