@@ -2,9 +2,10 @@
    CSS VARIABLES
    ============================================ */
 :root {
-  --bg:        #050911;
+  --bg:        #060814;
   --card-bg:   rgba(10, 20, 38, 0.7);
   --blue:      #3b82f6;
+  --green:      #22d3a4
   --gold:      #ff9900;
   --text:      #94a3b8;
   --text-dim:  rgba(148, 163, 184, 0.5);
@@ -33,34 +34,63 @@ body {
   color: var(--text);
   font-family: 'Inter', 'Segoe UI', sans-serif;
   line-height: 1.6;
-  overflow-x: hidden;
-  min-height: 100vh;
+  background-image: 
+        radial-gradient(ellipse at 55% 45%, rgba(209, 154, 51, 0.12) 0%, rgba(209, 154, 51, 0.03) 45%, transparent 70%),
+        radial-gradient(circle at center, #0e142e 0%, #060814 75%);
+        
+    margin: 0;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow-x: hidden;
 }
 
 /* ============================================
-   BACKGROUND CANVAS
+   BACKGROUND FOUNDATION & AMBIENT GLOWS
+   ============================================ */
+
+
+/* ============================================
+   BACKGROUND CANVAS (Particle Layer)
    ============================================ */
 #particle-canvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 0;
-  pointer-events: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    /* Layer 0: Sits directly on top of the background colors but behind the grid/content */
+    z-index: 0; 
+    pointer-events: none;
 }
 
+/* ============================================
+   RETRO GRID LINE OVERLAY
+   ============================================ */
 /* Incredibly faint grid */
 body::before {
-  content: '';
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 44px 44px;
-  z-index: 1;
-  pointer-events: none;
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 44px 44px;
+    background-position: center;
+    /* Layer 1: Sitting securely above the canvas so particles float inside the grid tracks */
+    z-index: 1; 
+    pointer-events: none;
 }
 
+/* ============================================
+   MAIN WRAPPER INTERFACE CONTENT HOLDER
+   ============================================ */
+/* Ensure your hero layout, text header, and buttons container use a high z-index 
+   so everything stays sharp and clickable on top of the background layers */
+.hero-section, 
+.section, 
+.button-container {
+    position: relative;
+    z-index: 10;
+}
 /* ============================================
    TYPOGRAPHY UTILITIES
    ============================================ */
@@ -193,7 +223,7 @@ body::before {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  margin-left: 100px;
+  margin-left: 125px;
   padding: 100px 60px 100px var(--nav-width);
 }
 
@@ -262,19 +292,19 @@ body::before {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  border: 1px solid rgb(9, 248, 9);
   padding: 6px 14px;
   border-radius: 4px;
   font-family: 'Press Start 2P', monospace;
   font-size: 7px;
-  color: var(--blue);
+  color: rgb(41, 150, 41);
   letter-spacing: 1.5px;
   margin-bottom: 36px;
   background: rgba(59, 130, 246, 0.05);
 }
 
 .badge-dot {
-  color: #22d3a4;
+  color: rgb(32, 183, 32);
   font-size: 9px;
   animation: pulse-dot 2s ease-in-out infinite;
 }
@@ -283,22 +313,40 @@ body::before {
   font-family: 'Inter', sans-serif;
   font-size: 18px;
   font-weight: 300;
-  color: var(--text-dim);
+  color: #626984;
   margin-bottom: 10px;
 }
 
+/* ============================================
+   HERO TITLE NAME GRADIENT (.hero-name)
+   ============================================ */
 .hero-name {
-  font-family: 'Press Start 2P', monospace;
-  font-size: clamp(22px, 4vw, 48px);
-  color: var(--text-bright);
-  line-height: 1.25;
-  margin-bottom: 28px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 3.75rem;
+    line-height: 1.4;
+    letter-spacing: 2px;
+    margin: 0 0 12px 0;
+    
+    /* 135deg: Directs the gradient path from Top-Left to Bottom-Right.
+       #507FF5 (0%): Starts crisp blue at the top-left of 'S'.
+       #9493CE (52%): The purple/silver transition bridge mixing beautifully right over 'a' and 's'.
+       #C3A67B (100%): Seamlessly lands as rich gold at the bottom-right tip of 't'.
+    */
+    background: linear-gradient(
+        135deg, 
+        #507FF5 0%,     
+        #9493CE 52%,    
+        #C3A67B 100%    
+    );
+    
+    /* Standard background masking properties to clip the gradient map to the font edges */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* Hardware acceleration layer configuration to keep font edges razor sharp */
+    display: inline-block;
 }
-
 .cursor-block {
   display: inline-block;
   width: clamp(12px, 2.2vw, 26px);
@@ -319,8 +367,7 @@ body::before {
   font-size: clamp(12px, 1.3vw, 15px);
   font-weight: 500;
   color: var(--text-dim);
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
+
   margin-bottom: 18px;
 }
 
@@ -329,7 +376,9 @@ body::before {
   margin: 0 8px;
 }
 
-/* Health Bar */
+/* ============================================
+   HEALTH BAR & ACCENT ELEMENTS
+   ============================================ */
 .health-bar {
   display: flex;
   align-items: center;
@@ -342,14 +391,19 @@ body::before {
   font-size: 17px;
   line-height: 1;
   display: inline-block;
+  /* Hardware acceleration fix to keep text-shadow smooth */
+  transform: translateZ(0); 
 }
 
+/* Full Hearts: Active amber color with breathing light bloom */
 .heart.full {
-  color: var(--gold);
+  color: #F5A71E;
+  animation: heartGlowPulse 3s ease-in-out infinite alternate;
 }
 
+/* Empty Hearts: Clear dim fallback matching the core tone background matrix */
 .heart.empty {
-  color: rgba(255, 153, 0, 0.2);
+  color: rgba(245, 167, 30, 0.15);
 }
 
 .heart.half {
@@ -359,17 +413,22 @@ body::before {
   font-size: 17px;
 }
 
+/* Half Heart Fill: Left side holds the glow animation cleanly inside the clip path */
 .heart.half .heart-fill {
-  color: var(--gold);
+  color: #F5A71E;
   position: absolute;
   left: 0; top: 0;
   clip-path: inset(0 50% 0 0);
+  animation: heartGlowPulse 3s ease-in-out infinite alternate;
 }
 
 .heart.half .heart-empty {
-  color: rgba(255, 153, 0, 0.2);
+  color: rgba(245, 167, 30, 0.15);
 }
 
+/* ============================================
+   HERO DESCRIPTION BLOCK
+   ============================================ */
 .hero-desc {
   font-size: clamp(14px, 1.3vw, 15px);
   font-weight: 400;
@@ -379,6 +438,22 @@ body::before {
   line-height: 1.75;
 }
 
+/* ============================================
+   HEALTH GLOW KEYFRAME PULSE ENGINE
+   ============================================ */
+@keyframes heartGlowPulse {
+  0% {
+    text-shadow: 
+        0 0 4px rgba(245, 167, 30, 0.4),
+        0 0 10px rgba(245, 167, 30, 0.15);
+  }
+  100% {
+    text-shadow: 
+        0 0 8px rgba(245, 167, 30, 0.75),
+        0 0 18px rgba(245, 167, 30, 0.4),
+        0 0 32px rgba(245, 167, 30, 0.1);
+  }
+}
 /* CTA Buttons */
 .hero-cta {
   display: flex;
@@ -386,57 +461,74 @@ body::before {
   flex-wrap: wrap;
 }
 
+
+
+
 .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 13px 26px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  letter-spacing: 1px;
-  text-decoration: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.22s ease;
-  position: relative;
-  overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 30px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    
+    /* Strict Retro Styling */
+    border-radius: 0px !important; 
+    border-style: solid;
+    border-width: 2px;
+    
+    /* Clean Physical Transition */
+    transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    position: relative;
+    
+    /* Layer isolation to stop sub-pixel cursor jitters */
+    backface-visibility: hidden;
+    transform: translateY(0);
 }
 
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
-  transition: left 0.35s ease;
-}
-
-.btn:hover::before { left: 100%; }
-
+/* --- 1. WATCH CHANNEL BUTTON (Blue Theme) --- */
 .btn-blue {
-  background: rgba(10, 20, 38, 0.85);
-  color: var(--blue);
-  border: 1px solid rgba(59, 130, 246, 0.38);
+    color: #4371f7;
+    background-color: rgba(14, 23, 51, 0.65); /* Faint tint fill */
+    
+    /* 3D Asymmetric Border: Top/Left Blue, Bottom/Right Pitch Black */
+    border-color: rgba(67, 113, 247, 0.45) #000000 #000000 rgba(67, 113, 247, 0.45);
+    
+    /* Permanent Ambient Faint Neon Glow */
+    box-shadow: 
+        inset 0 0 90px rgba(67, 113, 247, 0.15),
+        0 0 100px rgba(67, 113, 247, 0.18);
 }
 
-.btn-blue:hover {
-  background: rgba(59, 130, 246, 0.08);
-  border-color: var(--blue);
-  box-shadow: 0 0 6px rgba(59, 130, 246, 0.5), 0 0 15px rgba(59, 130, 246, 0.2);
-  transform: translateY(-2px);
-}
-
+/* --- 2. JOIN DISCORD BUTTON (Gold Theme) --- */
 .btn-gold {
-  background: rgba(10, 20, 38, 0.85);
-  color: var(--gold);
-  border: 1px solid rgba(255, 153, 0, 0.38);
+    color: #ECA11C;
+    background-color: rgba(33, 24, 11, 0.65); /* Faint tint fill */
+    
+    /* 3D Asymmetric Border: Top/Left Gold, Bottom/Right Pitch Black */
+    border-color: rgba(209, 154, 51, 0.45) #000000 #000000 rgba(209, 154, 51, 0.45);
+    
+    /* Permanent Ambient Faint Neon Glow */
+    box-shadow: 
+        inset 0 0 80px rgba(209, 154, 51, 0.15),
+        0 0 14px rgba(209, 154, 51, 0.18);
 }
 
+/* --- SHARED HOVER & ACTIVE INTERACTIONS --- */
+/* Purely lifts the button elements physically without color shifts */
+.btn-blue:hover, 
 .btn-gold:hover {
-  background: rgba(255, 153, 0, 0.07);
-  border-color: var(--gold);
-  box-shadow: 0 0 6px rgba(255, 153, 0, 0.5), 0 0 15px rgba(255, 153, 0, 0.2);
-  transform: translateY(-2px);
+    transform: translateY(-3px); 
+}
+
+/* Simulates clicking down into the grid */
+.btn-blue:active, 
+.btn-gold:active {
+    transform: translateY(-0.5px);
 }
 
 /* Scroll hint */
@@ -476,7 +568,9 @@ body::before {
 .projects-section {
   background: rgba(8, 14, 26, 0.5);
 }
-
+.title-accent{
+  color:  #ECA11C;
+}
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -611,7 +705,9 @@ body::before {
   font-style: italic;
   color: var(--text-bright);
 }
-
+.quote{
+  font-family: 'Press Start 2P', monospace;
+}
 .stats-row {
   display: flex;
   gap: 16px;
@@ -659,11 +755,12 @@ body::before {
   letter-spacing: 1.5px;
   background: rgba(255, 153, 0, 0.04);
 }
-
-/* Skill Board */
+/* ============================================
+   SKILL BOARD LAYOUT & FIXED ORANGE ENGINE
+   ============================================ */
 .skill-board {
   background: rgba(8, 14, 26, 0.9);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border, rgba(255,255,255,0.1));
   border-radius: 10px;
   overflow: hidden;
   font-family: 'Press Start 2P', monospace;
@@ -676,7 +773,7 @@ body::before {
   gap: 12px;
   padding: 14px 20px;
   background: rgba(10, 20, 38, 0.7);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border, rgba(255,255,255,0.1));
 }
 
 .window-dots {
@@ -698,7 +795,7 @@ body::before {
 
 .skill-board-title {
   font-size: 8px;
-  color: var(--text-dim);
+  color: var(--text-dim, #626984);
   letter-spacing: 2px;
 }
 
@@ -723,24 +820,24 @@ body::before {
 
 .skill-name {
   font-size: 7px;
-  color: var(--text);
+  color: var(--text, #E2E8F0);
   letter-spacing: 1px;
 }
 
 .skill-pct { font-size: 7px; letter-spacing: 1px; }
-.blue-pct  { color: var(--blue); }
-.gold-pct  { color: var(--gold); }
+.blue-pct  { color: var(--blue, #507FF5); }
+.gold-pct  { color: #F5A71E !important; } /* Fixed orange text */
 
 .skill-bar-track {
   height: 10px;
-  background: rgba(59, 130, 246, 0.05);
-  border: 1px solid rgba(59, 130, 246, 0.1);
+  background: rgba(5, 9, 17, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 2px;
   overflow: hidden;
   position: relative;
 }
 
-/* Pixel-segmented look */
+/* Pixel-segmented arcade layout mesh overlay */
 .skill-bar-track::after {
   content: '';
   position: absolute;
@@ -749,26 +846,29 @@ body::before {
     90deg,
     transparent,
     transparent 7px,
-    rgba(5, 9, 17, 0.55) 7px,
-    rgba(5, 9, 17, 0.55) 8px
+    rgba(5, 9, 17, 0.75) 7px,
+    rgba(5, 9, 17, 0.75) 8px
   );
   z-index: 2;
   pointer-events: none;
 }
 
+/* Fixed: Added fallback properties so width values written by JS compile flawlessly */
 .skill-bar-fill {
   height: 100%;
-  width: 0%;
+  width: 0%; 
   border-radius: 2px;
-  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: width;
 }
 
-.blue-bar { background: linear-gradient(90deg, #1d4ed8, var(--blue)); }
-.gold-bar  { background: linear-gradient(90deg, #b45309, var(--gold)); }
+.blue-bar { background: linear-gradient(90deg, #1d4ed8, #507FF5); }
+/* Fixed Orange Color Vector Mapping */
+.gold-bar { background: linear-gradient(90deg, #b45309, #F5A71E) !important; } 
 
 .skill-board-footer {
   padding: 14px 20px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--border, rgba(255,255,255,0.1));
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -777,13 +877,13 @@ body::before {
 
 .xp-label {
   font-size: 7px;
-  color: var(--text-dim);
+  color: var(--text-dim, #626984);
   letter-spacing: 1.5px;
 }
 
 .xp-value {
   font-size: 9px;
-  color: var(--gold);
+  color: #F5A71E;
 }
 
 /* ============================================
@@ -854,7 +954,7 @@ body::before {
 
 .video-channel {
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
+  font-size: 15px;
   color: var(--text-bright);
   letter-spacing: 2px;
 }
@@ -934,7 +1034,7 @@ body::before {
 
 .contact-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: 10px;
   color: var(--text-bright);
   letter-spacing: 1px;
 }
@@ -955,7 +1055,7 @@ body::before {
 
 .contact-form-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
+  font-size: 10px;
   color: var(--text-bright);
   letter-spacing: 1.5px;
   margin-bottom: 24px;

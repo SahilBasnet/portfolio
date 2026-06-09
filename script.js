@@ -1,19 +1,36 @@
 /* ============================================
-   PARTICLE SYSTEM
+   PARTICLE SYSTEM (Ultra-Smooth Rotating Atmospheric Variant)
    ============================================ */
 (function () {
   const canvas = document.getElementById('particle-canvas');
   const ctx = canvas.getContext('2d');
 
+  // Muted, low-intensity RGBA configurations to prevent distracting the user
   const COLORS = [
-    'rgba(59, 130, 246, ALPHA)',  // neon blue
-    'rgba(255, 153,   0, ALPHA)', // amber gold
-    'rgba(255, 200,  80, ALPHA)', // warm gold
+    { rgb: '59, 130, 246', fillAlpha: 0.04, borderAlphaMax: 0.18 },  // Muted Neon Blue
+    { rgb: '255, 153, 0',  fillAlpha: 0.04, borderAlphaMax: 0.18 },  // Muted Amber Gold
+    { rgb: '255, 200, 80',  fillAlpha: 0.04, borderAlphaMax: 0.18 },  // Muted Warm Gold
   ];
 
-  const PARTICLE_COUNT = 35;
+  const PARTICLE_COUNT = 40;
   let particles = [];
   let W, H;
+
+  const mouse = {
+    x: null,
+    y: null,
+    radius: 140 
+  };
+
+  window.addEventListener('mousemove', (event) => {
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
+  });
+
+  window.addEventListener('mouseleave', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
 
   function resize() {
     W = canvas.width  = window.innerWidth;
@@ -25,22 +42,22 @@
   }
 
   function createParticle() {
-    const colorTemplate = COLORS[Math.floor(Math.random() * COLORS.length)];
-    const alpha = randomBetween(0.18, 0.55);
-    const color = colorTemplate.replace('ALPHA', alpha.toFixed(2));
-
+    const config = COLORS[Math.floor(Math.random() * COLORS.length)];
     return {
       x: randomBetween(0, W),
       y: randomBetween(0, H),
-      size: randomBetween(1.5, 3.5),
-      color,
-      baseAlpha: alpha,
-      alpha,
-      vx: randomBetween(-0.08, 0.08),
-      vy: randomBetween(-0.09, -0.03),
-      twinkleSpeed: randomBetween(0.004, 0.012),
+      size: randomBetween(4, 10),
+      rgbStr: config.rgb,
+      fillAlphaSetting: config.fillAlpha,
+      borderAlphaMax: config.borderAlphaMax,
+      vx: randomBetween(-3.5, 3.5),
+      vy: randomBetween(-4.5, -1.5),
+      twinkleSpeed: randomBetween(0.003, 0.009),
       twinkleOffset: Math.random() * Math.PI * 2,
-      glowing: Math.random() > 0.65,
+      
+      // ROTATION SETTINGS: Starting angle and an incredibly slow rotation speed factor
+      angle: Math.random() * Math.PI * 2,
+      rotationSpeed: randomBetween(-0.15, 0.15) // Radians per second (negative spins left, positive right)
     };
   }
 
@@ -53,46 +70,77 @@
 
   function drawParticle(p, t) {
     const twinkle = Math.sin(t * p.twinkleSpeed * 60 + p.twinkleOffset);
-    const displayAlpha = Math.max(0.05, p.baseAlpha * (0.55 + 0.45 * twinkle));
+    const dynamicAlphaModifier = (0.6 + 0.4 * twinkle);
+    
+    const borderAlpha = Math.max(0.04, p.borderAlphaMax * dynamicAlphaModifier);
+    const fillAlpha = Math.max(0.01, p.fillAlphaSetting * dynamicAlphaModifier);
 
     ctx.save();
-    ctx.globalAlpha = displayAlpha;
 
-    if (p.glowing) {
-      const glowColor = p.color.replace('ALPHA', '0.12');
-      ctx.shadowColor = glowColor.replace('rgba', 'rgb').replace(/,\s*[\d.]+\)/, ')');
-      ctx.shadowBlur = 8;
-    }
+    // Move the canvas origin point directly to the center of the particle
+    ctx.translate(p.x + p.size / 2, p.y + p.size / 2);
+    // Rotate the canvas context around that center point smoothly
+    ctx.rotate(p.angle);
 
-    // Draw a crisp pixel square
-    ctx.fillStyle = p.color.replace(/,\s*[\d.]+\)/, ', ' + displayAlpha.toFixed(2) + ')');
-    ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
+    // Draw the square aligned perfectly at the new rotated origin point
+    const renderOffset = -p.size / 2;
+
+    // 1. Faint Semi-Transparent Fill Area
+    ctx.fillStyle = `rgba(${p.rgbStr}, ${fillAlpha})`;
+    ctx.fillRect(renderOffset, renderOffset, p.size, p.size);
+
+    // 2. Faint Outline Border
+    ctx.strokeStyle = `rgba(${p.rgbStr}, ${borderAlpha})`;
+    ctx.lineWidth = 1;
+    ctx.strokeRect(renderOffset, renderOffset, p.size, p.size);
+
     ctx.restore();
   }
 
   let lastTime = 0;
 
   function animate(timestamp) {
-    const t = timestamp / 1000;
-    const dt = Math.min((timestamp - lastTime) / 1000, 0.05);
+    if (!lastTime) lastTime = timestamp;
+    const dt = Math.min((timestamp - lastTime) / 1000, 0.1);
     lastTime = timestamp;
 
+    const t = timestamp / 1000;
     ctx.clearRect(0, 0, W, H);
 
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
 
-      p.x += p.vx;
-      p.y += p.vy;
+      // Update position coordinates
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
 
-      // Wrap around edges
-      if (p.x < -10) p.x = W + 10;
-      if (p.x > W + 10) p.x = -10;
-      if (p.y < -10) {
-        p.y = H + 10;
+      // Update rotation angle cleanly scaled by delta time
+      p.angle += p.rotationSpeed * dt;
+
+      // Smooth, slow cursor avoidance
+      if (mouse.x !== null && mouse.y !== null) {
+        let dx = p.x - mouse.x;
+        let dy = p.y - mouse.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < mouse.radius) {
+          let force = (mouse.radius - distance) / mouse.radius;
+          const forceDirectionX = dx / distance;
+          const forceDirectionY = dy / distance;
+
+          p.x += forceDirectionX * force * 55 * dt;
+          p.y += forceDirectionY * force * 55 * dt;
+        }
+      }
+
+      // Wrap around screen edges seamlessly (extended boundary padding slightly to hide rotating edges)
+      if (p.x < -20) p.x = W + 20;
+      if (p.x > W + 20) p.x = -20;
+      if (p.y < -20) {
+        p.y = H + 20;
         p.x = randomBetween(0, W);
       }
-      if (p.y > H + 10) p.y = -10;
+      if (p.y > H + 20) p.y = -20;
 
       drawParticle(p, t);
     }
@@ -118,7 +166,6 @@
   const navLinks = document.querySelectorAll('.nav-icon[href^="#"]');
   const sections = document.querySelectorAll('.section');
 
-  // Smooth scroll on click
   navLinks.forEach(link => {
     link.addEventListener('click', function (e) {
       e.preventDefault();
@@ -130,7 +177,6 @@
     });
   });
 
-  // Active link on scroll (IntersectionObserver)
   const observer = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {
@@ -147,10 +193,8 @@
 
   sections.forEach(section => observer.observe(section));
 })();
-
-
 /* ============================================
-   SKILL BAR ANIMATION (Intersection Observer)
+   SKILL BAR ANIMATION (Intersection Observer Fixed)
    ============================================ */
 (function () {
   const bars = document.querySelectorAll('.skill-bar-fill');
@@ -161,20 +205,27 @@
         if (entry.isIntersecting) {
           const bar = entry.target;
           const targetWidth = bar.getAttribute('data-width');
-          bar.style.width = targetWidth + '%';
+          
+          // Force execution on the next rendering frame to ensure the browser processes the change
+          requestAnimationFrame(() => {
+            bar.style.width = targetWidth + '%';
+          });
+          
           observer.unobserve(bar);
         }
       });
     },
-    { threshold: 0.3 }
+    { threshold: 0.15 } // Lowered threshold slightly so it triggers reliably on all screen heights
   );
 
   bars.forEach(bar => {
-    bar.style.width = '0%';
+    // If the bar hasn't intersected yet, we safely keep it at 0
+    if (!bar.style.width) {
+      bar.style.width = '0%';
+    }
     observer.observe(bar);
   });
 })();
-
 
 /* ============================================
    PROJECT CARD GLOW ON HOVER
